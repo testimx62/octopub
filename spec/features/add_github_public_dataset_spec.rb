@@ -25,7 +25,7 @@ feature "Add dataset page", type: :feature do
       good_schema_url = url_with_stubbed_get_for_fixture_file('schemas/good-schema.json')
       create(:dataset_file_schema, url_in_repo: good_schema_url, name: 'good schema', description: 'good schema description', user: @user)
       click_link "Create a new data collection"
-      expect(page).to have_content "Dataset name"
+      expect(page).to have_content "Collection name"
     end
 
     it "can access add dataset page" do
@@ -37,7 +37,7 @@ feature "Add dataset page", type: :feature do
     it "can access add dataset page see they have the form options for a schema" do
       within 'form' do
         expect(page).to have_content "good schema"
-        expect(page).to have_content "Or upload a new one"
+        expect(page).to have_content "Save and add another file"
         expect(page).to have_content "No schema required"
         expect(page).to have_content @user.github_username
       end
@@ -69,14 +69,14 @@ feature "Add dataset page", type: :feature do
       before_datasets = Dataset.count
       expect(page).to have_selector(:link_or_button, "Submit")
       within 'form' do
-        expect(page).to have_content @user.github_username
-        expect(page).to have_content "Upload a schema for this Data File"
+        # expect(page).to have_content @user.github_username
+        # expect(page).to have_content "Upload a schema for this Data File"
         complete_form(page, common_name, data_file)
       end
 
       click_on 'Submit'
 
-      expect(page).to have_content "Your dataset has been queued for creation, and you should receive an email with a link to your dataset on Github shortly."
+      expect(page).to have_content "Your data collection has been queued for creation and will be available as a pre-published collection on your dashboard shortly."
       expect(Dataset.count).to be before_datasets + 1
       expect(Dataset.last.name).to eq "#{common_name}-name"
       expect(Dataset.last.owner).to eq @user.github_username
@@ -144,11 +144,11 @@ feature "Add dataset page", type: :feature do
     dataset_name = "#{common_name}-name"
 
     fill_in 'dataset[name]', with: dataset_name
-    select(@user.github_username, from: '[dataset[owner]]')
+    # select(@user.github_username, from: '[dataset[owner]]')
 
     fill_in 'dataset[description]', with: "#{common_name}-description"
-    fill_in 'dataset[publisher_name]', with: "#{common_name}-publisher-name"
-    fill_in 'dataset[publisher_url]', with: "http://#{common_name}-publisher-url.example.com/"
+		click_on 'Next: Add a licence'
+		click_on 'Next: Add your file(s)'
     fill_in 'files[][title]', with: "#{common_name}-file-name"
     fill_in 'files[][description]', with: "#{common_name}-file-description"
     attach_file("[files[][file]]", data_file)

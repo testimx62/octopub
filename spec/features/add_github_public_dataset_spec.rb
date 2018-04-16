@@ -63,8 +63,6 @@ feature "Add dataset page", type: :feature do
       before_datasets = Dataset.count
       expect(page).to have_selector(:link_or_button, "Submit")
       within 'form' do
-        # expect(page).to have_content @user.github_username
-        # expect(page).to have_content "Upload a schema for this Data File"
         complete_form(page, common_name, data_file)
       end
 
@@ -76,70 +74,10 @@ feature "Add dataset page", type: :feature do
       expect(Dataset.last.owner).to eq @user.github_username
     end
 
-    context "and while creating a dataset, can upload a schema" do
-
-      before :each do
-        # repo = double(GitData)
-        # expect(repo).to receive(:html_url) { 'https://example.org' }
-        # expect(repo).to receive(:name) { 'examplename'}
-        # expect(repo).to receive(:full_name) { 'examplename' }
-        # expect(RepoService).to receive(:create_repo) { repo }
-        # expect(RepoService).to receive(:fetch_repo).at_least(:once) { repo }
-        # expect(RepoService).to receive(:prepare_repo).at_least(:once)
-        # allow(DatasetFileSchemaService).to receive(:read_file_with_utf_8).and_return(read_fixture_schema_file('good-schema.json'))
-        # allow(DatasetFile).to receive(:read_file_with_utf_8).and_return(File.read(data_file))
-        # expect_any_instance_of(JekyllService).to receive(:create_data_files) { nil }
-        # expect_any_instance_of(JekyllService).to receive(:push_to_github) { nil }
-        # expect_any_instance_of(Dataset).to receive(:publish_public_views) { nil }
-        # expect_any_instance_of(Dataset).to receive(:send_success_email) { nil }
-      end
-
-      # scenario "privately" do
-      #   it "can't work out proper mocking"
-			#
-      #   expect(DatasetFileSchema.count). to eq 0
-      #   # click_link "Add dataset"
-      #   # within 'form' do
-      #   #   complete_form(page, "ABC123", data_file)
-      #   #   fill_in 'files[][schema_name]', with: "ABC123-schema"
-      #   #   attach_file("[files[][schema]]", schema_file) # doesn't work right
-      #   # end
-      #   # click_on 'Submit'
-			#
-      #   expect(DatasetFileSchema.count).to eq 1
-      #   expect(DatasetFileSchema.first.name).to eql "ABC123-schema"
-      #   expect(DatasetFileSchema.first.restricted).to eql true
-      # end
-			#
-      # scenario "publicly" do
-      #   it "can't work out proper mocking"
-			#
-      #   expect(DatasetFileSchema.count). to eq 0
-      #   # click_link "Add dataset"
-      #   # within 'form' do
-      #   #   complete_form(page, "ABC123", data_file)
-      #   #   fill_in 'files[][schema_name]', with: "ABC123-schema"
-      #   #   attach_file("[files[][schema]]", schema_file) # doesn't work right
-      #   #   select "Public - any user may access this schema", from: "[files[][schema_restricted]]"
-      #   # end
-      #   # click_on 'Submit'
-			#
-      #   expect(DatasetFileSchema.count).to eq 1
-      #   expect(DatasetFileSchema.first.name).to eql "ABC123-schema"
-      #   expect(DatasetFileSchema.first.restricted).to eql false
-      # end
-
-    end
-
-  end
-
   def complete_form(page, common_name, data_file, owner = nil, licence = nil)
 
     dataset_name = "#{common_name}-name"
-
     fill_in 'dataset[name]', with: dataset_name
-    # select(@user.github_username, from: '[dataset[owner]]')
-
     fill_in 'dataset[description]', with: "#{common_name}-description"
 		click_on 'Next: Add a licence'
 		click_on 'Next: Add your file(s)'

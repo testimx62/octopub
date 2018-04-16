@@ -28,14 +28,13 @@ feature "Add dataset page", type: :feature do
       expect(page).to have_content "Collection name"
     end
 
-    # it "can access add dataset page see they have the form options for a schema" do
-    #   within 'form' do
-    #     expect(page).to have_content "good schema"
-    #     expect(page).to have_content "Save and add another file"
-    #     expect(page).to have_content "No schema required"
-    #     expect(page).to have_content @user.github_username
-    #   end
-    # end
+    it "can access add dataset page see they have the form options for a schema" do
+      within 'form' do
+        expect(page).to have_content "good schema"
+        expect(page).to have_content "Save and add another file"
+        expect(page).to have_content "No schema required"
+      end
+    end
 
   end
 
@@ -56,7 +55,6 @@ feature "Add dataset page", type: :feature do
       expect_any_instance_of(JekyllService).to receive(:create_data_files) { nil }
       expect_any_instance_of(JekyllService).to receive(:push_to_github) { nil }
       expect_any_instance_of(Dataset).to receive(:publish_public_views) { nil }
-      # expect_any_instance_of(Dataset).to receive(:send_success_email) { nil }
 
       common_name = 'Fri1437'
 
@@ -73,6 +71,7 @@ feature "Add dataset page", type: :feature do
       expect(Dataset.last.name).to eq "#{common_name}-name"
       expect(Dataset.last.owner).to eq @user.github_username
     end
+	end
 
   def complete_form(page, common_name, data_file, owner = nil, licence = nil)
 

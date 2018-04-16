@@ -22,7 +22,7 @@ feature "A visiting, non-logged in user", type: :feature do
 
   # scenario "visitor can access the home page API page" do
   #   # requires Javascript capybara...
-  #   pending "awaiting set up for Javascript"
+  #   it "awaiting set up for Javascript"
   #   # visit root_path
   #   # click_link "API"
   #   # wait_for_ajax

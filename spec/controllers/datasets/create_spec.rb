@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/odlifier_licence_mock'
+require 'byebug'
 
 describe DatasetsController, type: :controller do
   include_context 'odlifier licence mock'
@@ -67,7 +68,7 @@ describe DatasetsController, type: :controller do
 
       end
 
-      pending 'returns an error if there are no files specified' do
+      it 'returns an error if there are no files specified' do
         request = post :create, params: { dataset: {
           name: dataset_name,
           description: description,
@@ -102,7 +103,7 @@ describe DatasetsController, type: :controller do
         }
 
         @repo = double(GitData)
-
+        byebug
         expect(@repo).to receive(:html_url) { nil }
         expect(@repo).to receive(:name) { nil }
         expect(@repo).to receive(:full_name) { nil }
@@ -118,7 +119,8 @@ describe DatasetsController, type: :controller do
         expect(the_dataset.dataset_files.first.storage_key).to_not be_nil
       end
 
-      pending 'creates a dataset with one file' do
+      it 'creates a dataset with one file' do
+        byebug
         expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
           @repo
         }
@@ -134,11 +136,12 @@ describe DatasetsController, type: :controller do
           owner: controller.send(:current_user).github_username
         }, files: @files }
 
+        # byebug
         creation_assertions
         expect(@user.datasets.first.owner).to eq @user.github_username
       end
 
-      pending 'creates a restricted dataset' do
+      it 'creates a restricted dataset' do
         expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: true, client: a_kind_of(Octokit::Client)) {
           @repo
         }
@@ -157,7 +160,7 @@ describe DatasetsController, type: :controller do
         expect(@user.datasets.first.publishing_method).to eq 'github_private'
       end
 
-      pending 'creates a dataset in an organization' do
+      it 'creates a dataset in an organization' do
         organization = 'my-cool-organization'
 
         expect(GitData).to receive(:create).with(organization, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
@@ -182,7 +185,7 @@ describe DatasetsController, type: :controller do
         expect(@user.datasets.first.owner).to eq organization
       end
 
-      pending 'returns 202 when async is set to true' do
+      it 'returns 202 when async is set to true' do
         expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
           @repo
         }
@@ -200,7 +203,7 @@ describe DatasetsController, type: :controller do
         expect(response.code).to eq("202")
       end
 
-      pending 'extracts from data params', async: false do
+      it 'extracts from data params', async: false do
         # This is a special Zapier thing, it sends the data in a hash called 'data'
         expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
           @repo
@@ -234,7 +237,7 @@ describe DatasetsController, type: :controller do
         creation_assertions
       end
 
-      pending 'handles non-url files' do
+      it 'handles non-url files' do
 
         filename = 'test-data.csv'
         path = File.join(Rails.root, 'spec', 'fixtures', filename)

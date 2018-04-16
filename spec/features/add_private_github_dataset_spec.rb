@@ -25,7 +25,7 @@ feature "Add private github dataset page", type: :feature do
     Sidekiq::Testing.fake!
   end
 
-  pending "by completing a simple dataset form without adding a schema" do
+  it "by completing a simple dataset form without adding a schema" do
     click_link "Create a new data collection"
 
     expect_any_instance_of(JekyllService).to receive(:create_data_files) { nil }

@@ -7,7 +7,7 @@ feature "Publisher can create a non-GitHub private repo", type: :feature do
   include_context 'odlifier licence mock'
 
 	# Pending as a concept in Octopub is now deprecated
-  pending "by uploading a simple dataset" do
+  it "by uploading a simple dataset" do
     Sidekiq::Testing.inline!
 
     @user.update(restricted: true)

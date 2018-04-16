@@ -55,7 +55,7 @@ describe Dataset, vcr: { :match_requests_on => [:host, :method] } do
     expect(dataset).to_not be_valid
   end
 
-  pending "creates a repo in Github" do
+  it "creates a repo in Github" do
 
     name = "My Awesome Dataset"
     html_url = "http://github.com/#{@user.name}/#{name.parameterize}"
@@ -88,7 +88,7 @@ describe Dataset, vcr: { :match_requests_on => [:host, :method] } do
     expect(dataset.url).to eq(html_url)
   end
 
-  pending "creates a repo with an organization" do
+  it "creates a repo with an organization" do
     name = "My Awesome Dataset"
     dataset = build(:dataset, :with_callback, user: @user, name: name, owner: "my-cool-organization")
     html_url = "http://github.com/#{@user.name}/#{name.parameterize}"
@@ -239,7 +239,7 @@ describe Dataset, vcr: { :match_requests_on => [:host, :method] } do
       expect(dataset.restricted).to be true
     end
 
-    pending "creates a private repo in Github" do
+    it "creates a private repo in Github" do
       mock_client = mock_pusher('beep-beep')
       name = "My Awesome Dataset"
       html_url = "http://github.com/#{@user.name}/#{name.parameterize}"
@@ -266,7 +266,7 @@ describe Dataset, vcr: { :match_requests_on => [:host, :method] } do
       expect(dataset.url).to eq(html_url)
     end
 
-    pending "creates a private local repo" do
+    it "creates a private local repo" do
       mock_client = mock_pusher('beep-beep')
       name = "My Awesome Dataset"
       html_url = "http://github.com/#{@user.name}/#{name.parameterize}"
@@ -286,7 +286,7 @@ describe Dataset, vcr: { :match_requests_on => [:host, :method] } do
       expect(dataset.url).to be_nil
     end
 
-    pending "can make a private repo public" do
+    it "can make a private repo public" do
       mock_client = mock_pusher('beep-beep')
 
 

@@ -11,13 +11,13 @@ feature "Logged in admin access to pages", type: :feature do
     visit root_path
   end
 
-  pending "logged in admins can view user list" do
+  it "logged in admins can view user list" do
     expect(page).to have_content "All your data collections"
     visit users_path
     expect(page).to have_content "Users"
   end
 
-  pending "logged in admins can view user their own user information with no dataset file schemas" do
+  it "logged in admins can view user their own user information with no dataset file schemas" do
     dataset = create(:dataset, user: @admin)
     expect(page).to have_content "Users"
     visit users_path
@@ -50,7 +50,7 @@ feature "Logged in admin access to pages", type: :feature do
     end
 
     context "logged in admins can view" do
-      pending "public dataset" do
+      it "public dataset" do
         dataset = create(:dataset, user: @publisher)
         expect(page).to have_content "Users"
         visit users_path
@@ -63,7 +63,7 @@ feature "Logged in admin access to pages", type: :feature do
         expect(page).to have_content dataset.name
       end
 
-      pending "private dataset files" do
+      it "private dataset files" do
         dataset_file = create(:dataset_file)
         dataset = create(:dataset, user: @publisher, dataset_files: [ dataset_file ], publishing_method: :local_private)
 
@@ -83,7 +83,7 @@ feature "Logged in admin access to pages", type: :feature do
       end
     end
 
-    pending "logged in admins can view in user list" do
+    it "logged in admins can view in user list" do
       expect(page).to have_content "Users"
       visit users_path
       expect(page).to have_content "Users"

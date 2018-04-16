@@ -28,13 +28,13 @@ feature "Add dataset page", type: :feature do
       expect(page).to have_content "Dataset name"
     end
 
-    pending "can access add dataset page" do
+    it "can access add dataset page" do
       within 'form' do
         expect(page).to have_content @user.github_username
       end
     end
 
-    pending "can access add dataset page see they have the form options for a schema" do
+    it "can access add dataset page see they have the form options for a schema" do
       within 'form' do
         expect(page).to have_content "good schema"
         expect(page).to have_content "Or upload a new one"
@@ -46,7 +46,7 @@ feature "Add dataset page", type: :feature do
   end
 
   context "logged in visitors has no schemas" do
-    pending "and can complete a simple dataset form without adding a schema" do
+    it "and can complete a simple dataset form without adding a schema" do
 
       repo = double(GitData)
       expect(repo).to receive(:html_url) { 'https://example.org' }
@@ -101,7 +101,7 @@ feature "Add dataset page", type: :feature do
       end
 
       scenario "privately" do
-        pending "can't work out proper mocking"
+        it "can't work out proper mocking"
 
         expect(DatasetFileSchema.count). to eq 0
         # click_link "Add dataset"
@@ -118,7 +118,7 @@ feature "Add dataset page", type: :feature do
       end
 
       scenario "publicly" do
-        pending "can't work out proper mocking"
+        it "can't work out proper mocking"
 
         expect(DatasetFileSchema.count). to eq 0
         # click_link "Add dataset"

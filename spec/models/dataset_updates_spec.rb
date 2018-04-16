@@ -20,7 +20,7 @@ describe Dataset do
       skip_callback_if_exists(Dataset, :update, :after, :update_dataset_in_github)
     end
 
-    pending "the public repo will be updated if the dataset is public" do
+    it "the public repo will be updated if the dataset is public" do
       mock_client = mock_pusher('beep-beep')
       mock_client = mock_pusher('beep-beep-boop')
       name = "this dataset"
@@ -61,7 +61,7 @@ describe Dataset do
       expect(updated_dataset.description).to eq 'Woof woof'
     end
 
-    pending "the private github repo will be updated if the dataset is private github" do
+    it "the private github repo will be updated if the dataset is private github" do
       mock_client = mock_pusher('beep-beep')
       mock_client = mock_pusher('beep-beep-boop')
       name = "this dataset"

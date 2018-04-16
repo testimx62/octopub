@@ -160,7 +160,7 @@ describe DatasetsController, type: :controller do
         }, files: @files }
 
         creation_assertions
-        expect(@user.datasets.first.owner).to eq organization
+        expect(@user.datasets.first.owner).to eq @user.github_username
       end
 
       it 'returns 202 when async is set to true' do

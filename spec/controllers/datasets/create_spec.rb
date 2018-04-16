@@ -138,25 +138,6 @@ describe DatasetsController, type: :controller do
         expect(@user.datasets.first.owner).to eq @user.github_username
       end
 
-      it 'creates a restricted dataset' do
-        expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: true, client: a_kind_of(Octokit::Client)) {
-          @repo
-        }
-
-        request = post :create, params: { dataset: {
-          name: dataset_name,
-          description: description,
-          publisher_name: publisher_name,
-          publisher_url: publisher_url,
-          license: license,
-          frequency: frequency,
-          publishing_method: :github_private,
-        }, files: @files }
-
-        creation_assertions(:github_private)
-        expect(@user.datasets.first.publishing_method).to eq 'github_public'
-      end
-
       it 'creates a dataset in an organization' do
         organization = 'my-cool-organization'
 

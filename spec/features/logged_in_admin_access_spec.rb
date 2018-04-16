@@ -12,7 +12,7 @@ feature "Logged in admin access to pages", type: :feature do
   end
 
   it "logged in admins can view user list" do
-    expect(page).to have_content "All your data collections"
+    expect(page).to have_content "Recent data collections"
     visit users_path
     expect(page).to have_content "Users"
   end

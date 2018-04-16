@@ -103,7 +103,6 @@ describe DatasetsController, type: :controller do
         }
 
         @repo = double(GitData)
-        byebug
         expect(@repo).to receive(:html_url) { nil }
         expect(@repo).to receive(:name) { nil }
         expect(@repo).to receive(:full_name) { nil }
@@ -120,7 +119,6 @@ describe DatasetsController, type: :controller do
       end
 
       it 'creates a dataset with one file' do
-        byebug
         expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
           @repo
         }
@@ -136,7 +134,6 @@ describe DatasetsController, type: :controller do
           owner: controller.send(:current_user).github_username
         }, files: @files }
 
-        # byebug
         creation_assertions
         expect(@user.datasets.first.owner).to eq @user.github_username
       end

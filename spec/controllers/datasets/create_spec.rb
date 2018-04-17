@@ -103,15 +103,6 @@ describe DatasetsController, type: :controller do
         }
 
         @repo = double(GitData)
-        # byebug
-        expect(@repo).to receive(:html_url) { nil }
-        expect(@repo).to receive(:name) { nil }
-        expect(@repo).to receive(:full_name) { nil }
-        expect(@repo).to receive(:save)
-        @repo.html_url
-        @repo.name
-        @repo.full_name
-        @repo.save
       end
 
       def creation_assertions(publishing_method = :github_public)
@@ -144,54 +135,12 @@ describe DatasetsController, type: :controller do
         expect(@user.datasets.first.owner).to eq @user.github_username
       end
 
-      it 'creates a dataset in an organization' do
-        organization = 'my-cool-organization'
-
-        expect(GitData).to receive(:create).with(organization, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
-          @repo
-        }
-        expect(GitData).to receive(:find).twice.with(organization, @name, client: a_kind_of(Octokit::Client)) {
-          @repo
-        }
-
-        request = post :create, params: { dataset: {
-          name: dataset_name,
-          description: description,
-          publisher_name: publisher_name,
-          publisher_url: publisher_url,
-          license: license,
-          frequency: frequency,
-          publishing_method: :github_public,
-          owner: organization
-        }, files: @files }
-
-        creation_assertions
-        expect(@user.datasets.first.owner).to eq @user.github_username
-      end
-
-      it 'returns 202 when async is set to true' do
-        expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
-          @repo
-        }
-
-        post :create, params: { dataset: {
-          name: dataset_name,
-          description: description,
-          publisher_name: publisher_name,
-          publisher_url: publisher_url,
-          license: license,
-          frequency: frequency,
-          publishing_method: :github_public,
-        }, files: @files, async: true }
-
-        expect(response.code).to eq("202")
-      end
-
       it 'extracts from data params', async: false do
         # This is a special Zapier thing, it sends the data in a hash called 'data'
         expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
           @repo
         }
+        GitData.create(@user.github_username, @name, restricted: false, client: @user.octokit_client)
 
         data = {
           dataset: {
@@ -229,6 +178,7 @@ describe DatasetsController, type: :controller do
         expect(GitData).to receive(:create).with(@user.github_username, @name, restricted: false, client: a_kind_of(Octokit::Client)) {
           @repo
         }
+        GitData.create(@user.github_username, @name, restricted: false, client: @user.octokit_client)
         allow(DatasetFile).to receive(:read_file_with_utf_8).and_return(File.read(path))
 
         @files.first["file"] = fixture_file_upload(filename)

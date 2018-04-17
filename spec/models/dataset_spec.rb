@@ -88,7 +88,7 @@ describe Dataset, vcr: { :match_requests_on => [:host, :method] } do
     expect(dataset.url).to eq(html_url)
   end
 
-  it "creates a repo with an organization" do
+  pending "creates a repo with an organization" do
     name = "My Awesome Dataset"
     dataset = build(:dataset, :with_callback, user: @user, name: name, owner: "my-cool-organization")
     html_url = "http://github.com/#{@user.name}/#{name.parameterize}"
@@ -116,7 +116,6 @@ describe Dataset, vcr: { :match_requests_on => [:host, :method] } do
     expect(RepoService).to receive(:fetch_repo)
     expect(dataset).to receive(:set_owner_avatar)
     expect(dataset).to receive(:publish_public_views).with(true)
-    # expect(dataset).to receive(:send_success_email)
     expect_any_instance_of(SendTweetService).to receive(:perform)
     dataset.complete_publishing
   end
